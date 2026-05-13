@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KHWB | Official Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .luxury-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .nav-blur {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Smooth transitions */
+        .cart-transition {
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .product-card:hover img {
+            transform: scale(1.04);
+        }
+
+        img {
+            cursor: default;
+        }
+
+        button,
+        a,
+        .product-card {
+            cursor: pointer;
+        }
+
+        #navbar,
+        #logo,
+        #nav-left,
+        #nav-right {
+            transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        #logo {
+            transition: all 0.5s ease;
+        }
+
+        #loaderText {
+            animation: loaderReveal 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        #loaderSub {
+            animation: loaderFade 1.5s ease forwards;
+            animation-delay: 0.8s;
+        }
+
+        @keyframes loaderReveal {
+
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+                letter-spacing: 0.2em;
+                filter: blur(12px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                letter-spacing: 0.02em;
+                filter: blur(0);
+            }
+
+        }
+
+        @keyframes loaderFade {
+
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        /* LUXURY SCROLLBAR */
+        .custom-scrollbar {
+            overflow-y: auto;
+            scroll-behavior: smooth;
+
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 999px;
+            transition: 0.3s;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-text {
+
+            transition:
+                opacity 1.2s ease,
+                transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 1.2s ease;
+
+            will-change: transform, opacity, filter;
+            position: relative;
+            z-index: 10;
+
+
+
+        }
+
+        #cursor-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 999px;
+            background: radial-gradient(circle,
+                    rgba(255, 255, 255, 0.08) 0%,
+                    rgba(255, 255, 255, 0.03) 40%,
+                    transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+
+            z-index: 1;
+
+            mix-blend-mode: screen;
+            transition: transform 0.08s linear;
+        }
+
+        @keyframes slowZoom {
+
+            from {
+                transform: scale(1.08);
+            }
+
+            to {
+                transform: scale(1.18);
+            }
+
+        }
+    </style>
+</head>
+
+<body class="bg-[#fafafa] text-[#1a1a1a] overflow-x-hidden">
+    <!-- LUXURY LOADER -->
+    <div id="luxury-loader" class="fixed inset-0 bg-white z-[999999]
+    flex items-center justify-center
+    overflow-hidden">
+
+        <!-- CENTER -->
+        <div class="text-center">
+
+            <!-- LOGO -->
+            <h1 id="loaderText" class="luxury-font
+            text-5xl md:text-7xl
+            tracking-tight
+            opacity-0
+            translate-y-8">
+
+                KHWB
+
+            </h1>
+
+            <!-- SUBTEXT -->
+            <p id="loaderSub" class="mt-4
+            text-[10px]
+            tracking-[0.45em]
+            uppercase
+            text-gray-400
+            opacity-0">
+
+                The Dream
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button id="filterBtn" onclick="toggleFilter()" class="fixed bottom-8 left-8 z-[10000]
+backdrop-blur-xl bg-white/70 border border-white/40
+w-16 h-16 rounded-full
+flex items-center justify-center
+shadow-xl hover:scale-110 transition duration-500">
+
+        ✦
+
+    </button>
+
+    <div class="flex flex-col md:flex-row">
+
+        <!-- FULLSCREEN FILTER MENU -->
+        <div id="filterSidebar" class="fixed inset-0 bg-white z-[99999]
+transform -translate-x-full
+transition-transform duration-700
+ease-[cubic-bezier(0.77,0,0.175,1)]">
+
+            <!-- CLOSE -->
+            <button onclick="toggleFilter()" class="absolute top-6 right-8 lg:right-10
+        text-3xl font-light
+        hover:rotate-90
+        transition duration-500">
+                ×
+            </button>
+
+            <div class="min-h-screen flex flex-col lg:flex-row">
+
+                <!-- LEFT -->
+                <div class="w-full lg:w-[28%]
+        pl-8 lg:pl-44
+        pt-3
+        pb-10">
+
+                    <!-- LOGO -->
+                    <h1 class="luxury-font
+            text-4xl lg:text-6xl
+            tracking-tight
+            leading-none
+            mb-10 lg:mb-16">
+                        KHWB
+                    </h1>
+
+                    <!-- MENU -->
+                    <div class="flex flex-col gap-3">
+
+                        <button onclick="window.location.href='Khwbshop.html'" class="luxury-font text-left
+                    text-[15px] lg:text-[20px]
+                    font-light
+                    leading-none
+                    tracking-wide
+                    hover:translate-x-2
+                    transition duration-300">
+                            WOMAN
+                        </button>
+
+                        <button onclick="filterProducts('all')" class="mt-8 lg:mt-10
+                    text-left uppercase
+                    tracking-[0.3em]
+                    text-[10px]
+                    text-gray-500
+                    hover:text-black transition">
+                            ALL COLLECTION
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- CENTER -->
+                <div class="w-full lg:w-[38%]
+h-screen
+border-t lg:border-t-0
+lg:border-l lg:border-r
+border-black/10
+px-8 lg:px-16
+pt-10 lg:pt-[115px]
+overflow-y-auto custom-scrollbar">
+
+                    <div class="flex flex-col gap-20 pb-24">
+
+                        <!-- 01 -->
+                        <div class="grid grid-cols-[110px_1fr] lg:grid-cols-[140px_1fr] gap-8 lg:gap-16">
+
+                            <p class="text-[10px]
+                    tracking-[0.25em]
+                    lg:tracking-[0.35em]
+                    text-gray-400 uppercase pt-1">
+                                | 01 | NEW IN
+                            </p>
+
+                            <div class="flex flex-col gap-4">
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    THE NEW
+                                </p>
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    THE ITEM
+                                </p>
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    VACATION MOOD
+                                </p>
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    NEW
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <!-- 02 -->
+                        <div class="grid grid-cols-[110px_1fr] lg:grid-cols-[140px_1fr] gap-8 lg:gap-16">
+
+                            <p class="text-[10px]
+                    tracking-[0.25em]
+                    lg:tracking-[0.35em]
+                    text-gray-400 uppercase pt-1">
+                                | 02 | TRENDS
+                            </p>
+
+                            <div class="flex flex-col gap-4">
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    CO-ORD SETS
+                                </p>
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    LINEN
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <!-- 03 -->
+                        <div class="grid grid-cols-[110px_1fr] lg:grid-cols-[140px_1fr] gap-8 lg:gap-16">
+
+                            <p class="text-[10px]
+                    tracking-[0.25em]
+                    lg:tracking-[0.35em]
+                    text-gray-400 uppercase pt-1">
+                                | 03 | COLLECTION
+                            </p>
+
+                            <div class="flex flex-col gap-4">
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    BEST SELLERS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    DRESSES</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    TOPS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    SHIRTS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    T-SHIRTS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    KNITWEAR</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    TROUSERS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    JEANS</p>
+
+                            </div>
+
+                        </div>
+
+                        <!-- 04 -->
+                        <div class="grid grid-cols-[110px_1fr] lg:grid-cols-[140px_1fr] gap-8 lg:gap-16">
+
+                            <p class="text-[10px]
+                    tracking-[0.25em]
+                    lg:tracking-[0.35em]
+                    text-gray-400 uppercase pt-1">
+                                | 04 | ACCESSORIES
+                            </p>
+
+                            <div class="flex flex-col gap-4">
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    SHOES</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    BAGS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    JEWELLERY</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="hidden lg:flex flex-1 items-center justify-center">
+
+                    <div class="flex gap-5">
+
+                        <video autoplay muted loop playsinline
+                            class="w-32 xl:w-40 h-52 xl:h-64 object-cover rounded-md">
+
+                            <source src="Khwb shop Image/video4.mp4" type="video/mp4">
+
+                        </video>
+
+                        <video autoplay muted loop playsinline
+                            class="w-32 xl:w-40 h-52 xl:h-64 object-cover rounded-md mt-16">
+
+                            <source src="Khwb shop Image/video5.mp4" type="video/mp4">
+
+                        </video>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- NAVIGATION -->
+    <nav id="navbar" class="fixed top-0 w-full z-[100] px-8 py-6 flex justify-between items-center 
+         bg-transparent text-white transition-all duration-700">
+
+        <!-- CENTER LOGO -->
+        <div id="logo"
+            class="luxury-font text-3xl md:text-4xl font-bold tracking-[0.4em] uppercase text-center transition-all duration-700">
+            KHWB
+        </div>
+
+        <!-- LEFT -->
+        <div id="nav-left"
+            class="hidden md:flex gap-8 text-[10px] uppercase tracking-widest font-medium transition-all duration-700">
+            <a href="Khwbshop.html" class="hover:opacity-60 transition">Shop</a>
+        </div>
+
+
+    </nav>
+
+    <!-- 3. HERO SECTION (Versace Inspired) -->
+    <div class="h-screen overflow-y-scroll">
+        <section class="sticky top-0 h-screen flex items-center justify-center bg-black overflow-hidden">
+            <!-- VIDEO BACKGROUND -->
+            <video autoplay muted loop playsinline
+                class="absolute inset-0 w-full h-full object-cover scale-110 animate-[slowZoom_12s_linear_infinite_alternate]">
+
+                <source src="./khwb home img/video1.mp4" type="video/mp4">
+
+            </video>
+
+            <!-- DARK OVERLAY -->
+            <div class="absolute inset-0 bg-black/30"></div>
+
+            <!-- TEXT CONTENT -->
+            <div class="hero-text relative z-10 text-center text-white px-4">
+
+                <h2 class="text-sm uppercase tracking-[0.6em] mb-4 animate-pulse">
+                    Spring Summer 2026
+                </h2>
+
+                <h1 class="text-6xl md:text-[100px] luxury-font italic font-light leading-tight mb-8">
+                    The Dream Collection
+                </h1>
+
+                <a href="Khwbshop.html"
+                    class="inline-block border border-white px-12 py-4 text-[10px] uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all duration-700">
+
+                    Explore Collection
+
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- 4. SHOP SECTION (Zara Inspired Grid) -->
+        <section id="shop" class="w-full">
+            <!-- SECTION 1 -->
+
+            <section class="sticky top-0 w-full h-screen">
+                <a href="Khwbshop.html" class="block w-full h-full">
+
+                    <div class="relative w-full h-full overflow-hidden group cursor-pointer">
+
+                        <img src="khwb home img/img1.jpg"
+                            class="parallax-img w-full h-[120%] object-cover absolute top-[-10%] left-0">
+
+                        <div class="absolute inset-0 bg-black/10"></div>
+
+                        <div class="hero-text absolute bottom-8 right-8 z-10">
+                            <h3 class="text-white text-xs uppercase tracking-[0.3em]">
+                                Women Collection <br>
+                                The Unique until upgrade
+                            </h3>
+                        </div>
+
+                    </div>
+
+                </a>
+            </section>
+
+            <!-- SECTION 2 -->
+            <section class="sticky top-0 w-full h-screen">
+                <a href="Khwbshop.html" class="block w-full h-full">
+
+                    <div class="relative w-full h-full overflow-hidden group cursor-pointer">
+
+                        <img src="khwb home img/img5.jpg"
+                            class="parallax-img w-full h-[120%] object-cover absolute top-[-10%] left-0">
+
+                        <div class="absolute inset-0 bg-black/10"></div>
+
+                        <div class="hero-text absolute bottom-8 right-8 z-10">
+                            <h3 class="text-white text-xs uppercase tracking-[0.3em]">
+                                Men Collection <br>
+                                Attleir 2026
+                            </h3>
+                        </div>
+
+                    </div>
+
+                </a>
+            </section>
+
+            <!-- SECTION 3 -->
+            <section class="sticky top-0 w-full h-screen">
+                <a href="Khwbshop.html" class="block w-full h-full">
+
+                    <div class="relative w-full h-full overflow-hidden group cursor-pointer">
+
+                        <img src="khwb home img/img3.jpg"
+                            class="parallax-img w-full h-[120%] object-cover absolute top-[-10%] left-0">
+
+                        <div class="absolute inset-0 bg-black/10"></div>
+
+                        <div class="hero-text absolute bottom-8 right-8 z-10">
+                            <h3 class="text-white text-xs uppercase tracking-[0.3em]">
+                                Women Collection <br>
+                                Be Stylish be humble
+                            </h3>
+                        </div>
+
+                    </div>
+
+                </a>
+            </section>
+
+            <!-- SECTION 4 -->
+            <section class="sticky top-0 w-full h-screen">
+                <a href="Khwbshop.html" class="block w-full h-full">
+
+                    <div class="relative w-full h-full overflow-hidden group cursor-pointer">
+
+                        <img src="khwb home img/img4.jpg"
+                            class="parallax-img w-full h-[120%] object-cover absolute top-[-10%] left-0">
+
+                        <div class="absolute inset-0 bg-black/10"></div>
+
+                        <div class="hero-text absolute bottom-15 right-8 z-10">
+                            <h3 class="text-white text-xs uppercase tracking-[0.3em]">
+                                Women Collection <br>
+                                Nothing to say for this beauty
+                            </h3>
+                        </div>
+
+                    </div>
+
+                </a>
+            </section>
+
+        </section>
+
+        <!-- 5. ABOUT SECTION (Brand Philosophy) -->
+        <section id="about" class="relative z-[999] -mt-[20vh] py-40 bg-[#1a1a1a] text-white overflow-hidden">
+            <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80"
+                        class="w-full aspect-[4/5] object-cover grayscale">
+                    <div
+                        class="hero-text absolute -bottom-10 -right-10 w-40 h-40 bg-[#fafafa] hidden md:flex items-center justify-center p-6 text-black">
+                        <p class="text-[8px] uppercase tracking-widest leading-loose text-center">Quality over quantity.
+                            Dreams over reality.</p>
+                    </div>
+                </div>
+                <div class="hero-text space-y-10">
+                    <h2 class="luxury-font text-5xl leading-tight italic">Beyond Fashion, <br> A State of Mind.</h2>
+                    <p class="text-gray-400 leading-relaxed text-sm font-light tracking-wide">
+                        KHWB was founded on the principle that clothing is the visual language of our dreams. Each piece
+                        is
+                        meticulously crafted with high-end Italian fabrics, ensuring that the silhouette is not just
+                        seen,
+                        but felt.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed text-sm font-light tracking-wide">
+                        Inspired by the bold architecture of Milan and the subtle whispers of modern minimalism, KHWB is
+                        for
+                        those who dare to wear their aspirations.
+                    </p>
+                    <div class="pt-6">
+                        <span class="text-[10px] uppercase tracking-[0.5em] border-b border-white pb-2">The KHWB
+                            Atelier</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. FOOTER -->
+        <footer class="relative z-[999] bg-white py-20 px-6 md:px-20 border-t border-gray-100">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-16">
+                <div class="hero-text col-span-1 md:col-span-1">
+                    <h2 class="luxury-font text-2xl font-bold tracking-widest uppercase mb-6">KHWB</h2>
+                    <p class="text-xs text-gray-400 uppercase tracking-widest leading-relaxed">Defining the next era of
+                        luxury streetwear.</p>
+                </div>
+                <div class="hero-text space-y-4">
+                    <h4 class="text-[10px] uppercase font-bold tracking-widest">Client Service</h4>
+                    <ul class="text-[10px] text-gray-500 space-y-2 uppercase tracking-widest">
+                        <li><a href="#" class="hover:text-black">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-black">Shipping</a></li>
+                        <li><a href="#" class="hover:text-black">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="hero-text space-y-4">
+                    <h4 class="text-[10px] uppercase font-bold tracking-widest">Company</h4>
+                    <ul class="text-[10px] text-gray-500 space-y-2 uppercase tracking-widest">
+                        <li><a href="#" class="hover:text-black">Sustainability</a></li>
+                        <li><a href="#" class="hover:text-black">Careers</a></li>
+                        <li><a href="#" class="hover:text-black">Legal</a></li>
+                    </ul>
+                </div>
+                <div class="hero-text space-y-6">
+                    <h4 class="text-[10px] uppercase font-bold tracking-widest">Newsletter</h4>
+                    <input type="email" placeholder="JOIN THE LIST"
+                        class="w-full bg-transparent border-b border-gray-300 py-3 text-[10px] focus:outline-none focus:border-black transition-colors">
+                </div>
+            </div>
+            <div
+                class="mt-20 pt-8 border-t border-gray-50 text-center text-[9px] text-gray-300 uppercase tracking-widest">
+                &copy; 2026 KHWB Clothing. All Rights Reserved.
+            </div>
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+
+
+        /////////////////////////////
+        // NAVBAR SCROLL EFFECT
+        /////////////////////////////
+
+        const navbar = document.getElementById("navbar");
+        const logo = document.getElementById("logo");
+        const left = document.getElementById("nav-left");
+        const right = document.getElementById("nav-right");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 80) {
+
+                // WHITE MODE
+                navbar.classList.add("text-white");
+
+                if (left) left.style.opacity = "0.6";
+                if (right) right.style.opacity = "0.6";
+
+                if (logo) logo.style.color = "black";
+
+            } else {
+
+                // VIDEO MODE
+                navbar.classList.remove("bg-white/90", "backdrop-blur-lg", "text-black");
+                navbar.classList.add("bg-transparent", "text-white");
+
+                if (left) left.style.opacity = "1";
+                if (right) right.style.opacity = "1";
+
+                if (logo) logo.style.color = "white";
+            }
+        });
+
+        /////////////////////////////
+        // SMOOTH SCROLL (SAFE)
+        /////////////////////////////
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        window.addEventListener("load", () => {
+
+            const loader = document.getElementById("luxury-loader");
+
+            setTimeout(() => {
+
+                loader.style.opacity = "0";
+                loader.style.transition = "opacity 1s ease";
+
+                setTimeout(() => {
+
+                    loader.style.display = "none";
+
+                }, 1000);
+
+            }, 2600);
+
+        });
+
+        /* FILTER SYSTEM */
+        const filterButtons = document.querySelectorAll(".collection-btn");
+        const products = document.querySelectorAll(".product-card");
+
+        filterButtons.forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                filterButtons.forEach(btn => {
+                    btn.classList.remove("text-black", "font-semibold");
+                    btn.classList.add("text-gray-400");
+                });
+
+                button.classList.add("text-black", "font-semibold");
+
+                const filter = button.dataset.filter;
+
+                products.forEach(product => {
+
+                    product.style.transition = "all 0.5s ease";
+
+                    if (filter === "all" || product.dataset.category === filter) {
+
+                        product.style.opacity = "1";
+                        product.style.transform = "scale(1)";
+                        product.style.pointerEvents = "auto";
+
+                        setTimeout(() => {
+                            product.style.display = "block";
+                        }, 50);
+
+                    } else {
+
+                        product.style.opacity = "0";
+                        product.style.transform = "scale(0.95)";
+                        product.style.pointerEvents = "none";
+
+                        setTimeout(() => {
+                            product.style.display = "none";
+                        }, 300);
+
+                    }
+
+                });
+
+            });
+
+        });
+
+        function toggleFilter() {
+
+            const sidebar = document.getElementById("filterSidebar");
+
+            if (sidebar.classList.contains("-translate-x-full")) {
+
+                sidebar.classList.remove("-translate-x-full");
+
+            } else {
+
+                sidebar.classList.add("-translate-x-full");
+
+            }
+
+        }
+
+
+        const parallaxImgs = document.querySelectorAll(".parallax-img");
+
+        window.addEventListener("scroll", () => {
+
+            parallaxImgs.forEach(img => {
+
+                const section = img.closest("section");
+
+                const rect = section.getBoundingClientRect();
+
+                const speed = rect.top * -0.08;
+
+                img.style.transform = `translateY(${speed}px)`;
+
+            });
+
+        });
+
+        const heroTexts = document.querySelectorAll(".hero-text");
+
+        const revealText = () => {
+
+            heroTexts.forEach(text => {
+
+                const rect = text.getBoundingClientRect();
+
+                if (rect.top < window.innerHeight * 0.85) {
+
+                    text.style.opacity = "1";
+                    text.style.transform = "translateY(0)";
+                    text.style.filter = "blur(0)";
+
+                }
+
+            });
+
+        };
+
+        window.addEventListener("scroll", revealText);
+        window.addEventListener("load", revealText);
+    </script>
+
+    <div id="cursor-glow"></div>
+</body>
+
+</html>

@@ -1,0 +1,2766 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KHWB | Shop All Collections</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        html {
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+            scroll-behavior: smooth;
+
+        }
+
+        .luxury-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* B&W to Color Hover */
+        .product-image {
+            /* filter: grayscale(100%); */
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .group:hover .product-image {
+            filter: grayscale(0%);
+            transform: scale(1.03);
+        }
+
+        .floating-text {
+            font-size: 8px;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            writing-mode: vertical-rl;
+            color: #e5e5e5;
+        }
+
+        /* Hide Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f5f5f5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: black;
+            border-radius: 100px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        #modalImage {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            opacity: 1;
+            transform: scale(1);
+
+        }
+
+        .image-fade-out {
+            opacity: 0;
+            transform: scale(1.05);
+        }
+
+        .image-fade-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition:
+                opacity 1s ease,
+                transform 1s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* LUXURY SCROLLBAR */
+        .custom-scrollbar {
+            overflow-y: auto;
+            scroll-behavior: smooth;
+
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 999px;
+            transition: 0.3s;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-text {
+            opacity: 0;
+            transform: translateY(60px);
+            filter: blur(8px);
+
+            transition:
+                opacity 1.2s ease,
+                transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 1.2s ease;
+
+            will-change: transform, opacity, filter;
+        }
+
+        .hero-text.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        #loaderText {
+            animation: loaderReveal 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        #loaderSub {
+            animation: loaderFade 1.5s ease forwards;
+            animation-delay: 0.8s;
+        }
+
+        @keyframes loaderReveal {
+
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+                letter-spacing: 0.2em;
+                filter: blur(12px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                letter-spacing: 0.02em;
+                filter: blur(0);
+            }
+
+        }
+
+        @keyframes loaderFade {
+
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        #cart-toast{
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background: rgba(0,0,0,0.92);
+    color: white;
+    padding: 18px 28px;
+    z-index: 9999999;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 10px;
+    transform: translateY(-120px);
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.22,1,0.36,1);
+    backdrop-filter: blur(10px);
+}
+
+#cursor-glow {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 999px;
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.03) 40%,
+            transparent 70%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    mix-blend-mode: screen;
+    transition: transform 0.08s linear;
+
+    left: 0;
+    top: 0;
+}
+    </style>
+</head>
+
+<body class="selection:bg-black selection:text-white overflow-x-hidden">
+
+    <!-- LUXURY LOADER -->
+    <div id="luxury-loader" class="fixed inset-0 bg-white z-[999999]
+    flex items-center justify-center
+    overflow-hidden">
+
+        <!-- CENTER -->
+        <div class="text-center">
+
+            <!-- LOGO -->
+            <h1 id="loaderText" class="luxury-font
+            text-5xl md:text-7xl
+            tracking-tight
+            opacity-0
+            translate-y-8">
+
+                KHWB
+
+            </h1>
+
+            <!-- SUBTEXT -->
+            <p id="loaderSub" class="mt-4
+            text-[10px]
+            tracking-[0.45em]
+            uppercase
+            text-gray-400
+            opacity-0">
+
+                Atelier Collection 2026
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+     <div id="cart-sidebar"
+        class="fixed top-0 right-0 h-full w-full md:w-[400px] bg-white z-[100] shadow-2xl translate-x-full cart-transition p-10 flex flex-col">
+        <div class="flex justify-between items-center mb-12">
+            <h2 class="luxury-font text-3xl uppercase tracking-tighter">Your Bag</h2>
+            <button onclick="toggleCart()"
+                class="text-[10px] uppercase tracking-[0.2em] border-b border-black pb-1">Close</button>
+        </div>
+
+        <div id="cart-content" class="flex-grow flex items-center justify-center text-center">
+            <p class="text-gray-400 italic text-sm tracking-wide">Your collection is currently empty.</p>
+        </div>
+
+        <div class="pt-8 border-t border-gray-100">
+            <div class="flex justify-between mb-6 text-xs uppercase tracking-widest font-bold">
+                <span>Subtotal</span>
+                <span id="cart-subtotal">$0.00</span>
+            </div>
+            <button
+                class="w-full bg-black text-white py-5 text-[10px] uppercase tracking-[0.3em] hover:bg-gray-800 transition-colors">
+                Secure Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav
+        class="w-full z-[100] border-b border-gray-50 px-8 py-6 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur-md">
+        <a href="khwbClothing.html" class="luxury-font text-2xl font-bold tracking-[0.5em] uppercase">KHWB</a>
+        <div class="flex gap-8 text-[10px] uppercase tracking-widest font-medium">
+            <a href="khwbClothing.html" class="hover:text-gray-400 transition">Atelier Home</a>
+            <button onclick="toggleCart()" class="hover:text-gray-400 transition relative">
+                Cart (<span id="cart-count">0</span>)
+            </button>
+        </div>
+    </nav>
+
+    <button id="filterBtn" onclick="toggleFilter()" class="fixed bottom-8 left-8 z-[10000]
+backdrop-blur-xl bg-white/70 border border-white/40
+w-16 h-16 rounded-full
+flex items-center justify-center
+shadow-xl hover:scale-110 transition duration-500">
+
+        ✦
+
+    </button>
+
+    <div class="flex flex-col md:flex-row">
+
+        <!-- FULLSCREEN FILTER MENU -->
+        <div id="filterSidebar" class="fixed inset-0 bg-white z-[99999]
+transform -translate-x-full
+transition-transform duration-700
+ease-[cubic-bezier(0.77,0,0.175,1)]">
+
+            <!-- CLOSE -->
+            <button onclick="toggleFilter()" class="absolute top-6 right-8 lg:right-10
+        text-3xl font-light
+        hover:rotate-90
+        transition duration-500">
+                ×
+            </button>
+
+            <div class="min-h-screen flex flex-col lg:flex-row">
+
+                <!-- LEFT -->
+                <div class="w-full lg:w-[28%]
+        pl-8 lg:pl-44
+        pt-3
+        pb-10">
+
+                    <!-- LOGO -->
+                    <h1 class="luxury-font
+            text-4xl lg:text-6xl
+            tracking-tight
+            leading-none
+            mb-10 lg:mb-16">
+                        KHWB
+                    </h1>
+
+                    <!-- MENU -->
+                    <div class="flex flex-col gap-3">
+
+                        <button onclick="filterProducts('women')" class="luxury-font text-left
+                    text-[15px] lg:text-[20px]
+                    font-light
+                    leading-none
+                    tracking-wide
+                    hover:translate-x-2
+                    transition duration-300">
+                            WOMAN
+                        </button>
+
+                        <button onclick="filterProducts('all')" class="mt-8 lg:mt-10
+                    text-left uppercase
+                    tracking-[0.3em]
+                    text-[10px]
+                    text-gray-500
+                    hover:text-black transition">
+                            ALL COLLECTION
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- CENTER -->
+                <div class="w-full lg:w-[38%]
+h-screen
+border-t lg:border-t-0
+lg:border-l lg:border-r
+border-black/10
+px-8 lg:px-16
+pt-10 lg:pt-[115px]
+overflow-y-auto custom-scrollbar">
+
+                    <div class="flex flex-col gap-20 pb-24">
+
+                        <!-- 01 -->
+                        <div class="grid grid-cols-[110px_1fr] lg:grid-cols-[140px_1fr] gap-8 lg:gap-16">
+
+                            <p class="text-[10px]
+                    tracking-[0.25em]
+                    lg:tracking-[0.35em]
+                    text-gray-400 uppercase pt-1">
+                                | 01 | NEW IN
+                            </p>
+
+                            <div class="flex flex-col gap-4">
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    THE NEW
+                                </p>
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    THE ITEM
+                                </p>
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    VACATION MOOD
+                                </p>
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    NEW
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <!-- 02 -->
+                        <div class="grid grid-cols-[110px_1fr] lg:grid-cols-[140px_1fr] gap-8 lg:gap-16">
+
+                            <p class="text-[10px]
+                    tracking-[0.25em]
+                    lg:tracking-[0.35em]
+                    text-gray-400 uppercase pt-1">
+                                | 02 | TRENDS
+                            </p>
+
+                            <div class="flex flex-col gap-4">
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    CO-ORD SETS
+                                </p>
+
+                                <p class="text-[12px] lg:text-[14px]
+                        tracking-wide font-light
+                        hover:translate-x-2
+                        transition cursor-pointer">
+                                    LINEN
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <!-- 03 -->
+                        <div class="grid grid-cols-[110px_1fr] lg:grid-cols-[140px_1fr] gap-8 lg:gap-16">
+
+                            <p class="text-[10px]
+                    tracking-[0.25em]
+                    lg:tracking-[0.35em]
+                    text-gray-400 uppercase pt-1">
+                                | 03 | COLLECTION
+                            </p>
+
+                            <div class="flex flex-col gap-4">
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    BEST SELLERS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    DRESSES</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    TOPS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    SHIRTS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    T-SHIRTS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    KNITWEAR</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    TROUSERS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    JEANS</p>
+
+                            </div>
+
+                        </div>
+
+                        <!-- 04 -->
+                        <div class="grid grid-cols-[110px_1fr] lg:grid-cols-[140px_1fr] gap-8 lg:gap-16">
+
+                            <p class="text-[10px]
+                    tracking-[0.25em]
+                    lg:tracking-[0.35em]
+                    text-gray-400 uppercase pt-1">
+                                | 04 | ACCESSORIES
+                            </p>
+
+                            <div class="flex flex-col gap-4">
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    SHOES</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    BAGS</p>
+
+                                <p
+                                    class="text-[12px] lg:text-[14px] tracking-wide font-light hover:translate-x-2 transition cursor-pointer">
+                                    JEWELLERY</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="hidden lg:flex flex-1 items-center justify-center">
+
+                    <div class="flex gap-5">
+
+                        <video autoplay muted loop playsinline
+                            class="w-32 xl:w-40 h-52 xl:h-64 object-cover rounded-md">
+
+                            <source src="Khwb shop Image/video4.mp4" type="video/mp4">
+
+                        </video>
+
+                        <video autoplay muted loop playsinline
+                            class="w-32 xl:w-40 h-52 xl:h-64 object-cover rounded-md mt-16">
+
+                            <source src="Khwb shop Image/video5.mp4" type="video/mp4">
+
+                        </video>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-grow">
+
+            <!-- SECTION 1: Editorial (Balanced Layout) -->
+            <section class="p-6 md:p-20">
+                <div class="flex flex-col md:flex-row gap-16 items-start mb-40">
+                    <div class="w-full md:w-[65%] group relative cursor-pointer">
+                        <div class="overflow-hidden bg-gray-50 aspect-[4/5] relative">
+                            <img loading="lazy" src="Khwb shop Image/img2.jpg"
+                                class="product-image w-full object-cover">
+
+                        </div>
+                        <div class="mt-8 flex justify-between items-baseline">
+                            <h3 class="hero-text luxury-font text-4xl italic tracking-tighter">The Silk Masterpiece</h3>
+                        </div>
+                    </div>
+                    <!-- Right side filling the gap -->
+                    <div class="w-full md:w-[25%] mt-20 flex flex-col gap-10">
+                        <div class="hero-text floating-text hidden md:block">ARCHIVE 2026 — ATELIER SERIES</div>
+                        <div class="group relative cursor-pointer">
+                            <div class="overflow-hidden bg-gray-50 aspect-[3/4] relative">
+                                <video autoplay muted loop playsinline class="product-video w-full h-full object-cover">
+                                    <source src="Khwb shop Image/video3.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                        <p
+                            class=" hero-text text-[10px] text-gray-400 leading-relaxed uppercase tracking-widest italic">
+                            Inspired
+                            by the silence of modern dreams.</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row-reverse gap-16 items-start mb-40">
+                    <div class="w-full md:w-[60%] group relative cursor-pointer">
+                        <div class="overflow-hidden bg-gray-50 aspect-[4/5] relative">
+                            <img loading="lazy" src="Khwb shop Image/img3.jpg"
+                                class="product-image w-full object-cover">
+
+                        </div>
+                    </div>
+                    <div class="w-full md:w-[30%] mt-32 space-y-8 text-right">
+                        <h3 class=" hero-text luxury-font text-3xl ">Structural Elegance</h3>
+                        <div class="h-[1px] w-full bg-gray-100"></div>
+                        <p class=" hero-text text-xs text-gray-500 leading-relaxed tracking-wide">Each silhouette is a
+                            conversation
+                            between fabric and skin.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: THE ARCHIVE GRID (12-15 Samples before Footer) -->
+            <section class="bg-[#fafafa] py-24 px-6 md:px-12 border-t border-gray-100">
+                <div class="text-center mb-20">
+                    <h2 class="luxury-font text-5xl italic mb-4">The Gallery Archive</h2>
+                    <p
+                        class="text-[10px] uppercase tracking-[0.5em] text-gray-400 underline decoration-gray-200 underline-offset-8">
+                        Explore All Artifacts</p>
+                </div>
+
+                <!-- 4 Column Grid for Samples -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-16">
+
+                    <!-- Loop of 44 sample products -->
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="summer" onclick="openModal(
+[
+'Khwb shop Image/img4a.jpg',
+'Khwb shop Image/img4b.jpg',
+'Khwb shop Image/img4c.jpg'
+],
+'LOOK',
+'₹ 4,350'
+)">
+
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img4.jpg"
+                                class="product-image w-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart(
+'LOOK',
+4350,
+'Khwb shop Image/img4.jpg'
+)"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase tracking-[0.2em] font-bold">LOOK</p>
+                            <p class="text-[9px] text-gray-400">₹ 4,350</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="silk" onclick="openModal(
+[
+'Khwb shop Image/img5a.jpg',
+'Khwb shop Image/img5b.jpg',
+'Khwb shop Image/img5c.jpg'
+],
+'FRUIT PRINT HALTER POPLIN MIDI DRESS',
+'₹ 3,950.00'
+)">
+
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+
+                            <img loading="lazy" src="Khwb shop Image/img5.jpg"
+                                class="product-image w-full h-full object-cover">
+
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart(
+'LOOK',
+4350,
+'Khwb shop Image/img5.jpg'
+)"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">FRUIT PRINT HALTER POPLIN MIDI DRESS</p>
+                            <p class="text-[9px] text-gray-400">₹ 3,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img6a.jpg',
+'Khwb shop Image/img6b.jpg',
+'Khwb shop Image/img6c.jpg'
+],
+'SATIN POLKA DOT MIDI DRESS',
+'₹ 3,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img6.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart(
+'LOOK',
+4350,
+'Khwb shop Image/img6.jpg'
+)"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">SATIN POLKA DOT MIDI DRESS</p>
+                            <p class="text-[9px] text-gray-400">₹ 3,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img7a.jpg',
+'Khwb shop Image/img7b.jpg',
+'Khwb shop Image/img7c.jpg'
+],
+'100% LINEN STRIPED TROUSERS',
+'₹ 3,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img7.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart(
+'LOOK',
+4350,
+'Khwb shop Image/img7.jpg'
+)"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">100% LINEN STRIPED TROUSERS</p>
+                            <p class="text-[9px] text-gray-400">₹ 3,950.00</p>
+                        </div>
+                    </div>
+                    <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+                    <!-- Row 2 -->
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img8a.jpg',
+'Khwb shop Image/img8b.jpg',
+'Khwb shop Image/img8c.jpg'
+],
+'ASYMMETRIC FLOWING SKIRT',
+'₹ 2,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img8.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart(
+'LOOK',
+4350,
+'Khwb shop Image/img8.jpg'
+)"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">ASYMMETRIC FLOWING SKIRT</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="silk" onclick="openModal(
+[
+'Khwb shop Image/img9a.jpg',
+'Khwb shop Image/img9b.jpg',
+'Khwb shop Image/img9c.jpg'
+],
+'POPLIN SHIRT WITH PLEATS',
+'₹ 2,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img9.jpg"
+                                class="product-image w-full  object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart(
+'LOOK',
+4350,
+'Khwb shop Image/img9.jpg'
+)"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">POPLIN SHIRT WITH PLEATS</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img10a.jpg',
+'Khwb shop Image/img10b.jpg',
+'Khwb shop Image/img10c.jpg'
+],
+'SHORT STRIPED KNIT DRESS',
+'₹ 2,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img10.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart(
+'LOOK',
+4350,
+'Khwb shop Image/img10.jpg'
+)"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">SHORT STRIPED KNIT DRESS</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img11a.jpg',
+'Khwb shop Image/img11b.jpg',
+'Khwb shop Image/img11c.jpg'
+],
+'STRIPED STRAIGHT-LEG TROUSERS',
+'₹ 3,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img11.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">STRIPED STRAIGHT-LEG TROUSERS</p>
+                            <p class="text-[9px] text-gray-400">₹ 3,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img12a.jpg',
+'Khwb shop Image/img12b.jpg',
+'Khwb shop Image/img12c.jpg'
+],
+'LIMITED EDITION EMBROIDERED BEADED TOP',
+'₹ 8,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img12.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">LIMITED EDITION EMBROIDERED BEADED TOP</p>
+                            <p class="text-[9px] text-gray-400">₹ 8,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="silk" onclick="openModal(
+[
+'Khwb shop Image/img13a.jpg',
+'Khwb shop Image/img13b.jpg',
+'Khwb shop Image/img13c.jpg'
+],
+'PLAIN SKULLCAP',
+'₹ 2,350.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img13.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">PLAIN SKULLCAP</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,350.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img14a.jpg',
+'Khwb shop Image/img14b.jpg',
+'Khwb shop Image/img14c.jpg'
+],
+'STRIPED TOP WITH TASSEL TIES',
+'₹ 2,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img14.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">STRIPED TOP WITH TASSEL TIES</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img15a.jpg',
+'Khwb shop Image/img15b.jpg',
+'Khwb shop Image/img15c.jpg'
+],
+'EMBROIDERED KAFTAN BLOUSE',
+'₹ 5,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img15.jpg"
+                                class="product-image w-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">EMBROIDERED KAFTAN BLOUSE</p>
+                            <p class="text-[9px] text-gray-400">₹ 5,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="summer" onclick="openModal(
+[
+'Khwb shop Image/img16a.jpg',
+'Khwb shop Image/img16b.jpg',
+'Khwb shop Image/img16c.jpg'
+],
+'CONTRAST CROCHET JACKET',
+'₹ 5,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img16.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">CONTRAST CROCHET JACKET</p>
+                            <p class="text-[9px] text-gray-400">₹ 5,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="silk" onclick="openModal(
+[
+'Khwb shop Image/img17a.jpg',
+'Khwb shop Image/img17b.jpg',
+'Khwb shop Image/img17c.jpg'
+],
+'ASYMMETRIC CULOTTES',
+'₹ 2,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img17.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">ASYMMETRIC CULOTTES</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img18a.jpg',
+'Khwb shop Image/img18b.jpg',
+'Khwb shop Image/img18c.jpg'
+],
+'OVERSIZE COTTON SHIRT',
+'₹ 2,050.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img18.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">OVERSIZE COTTON SHIRT</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,050.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img19a.jpg',
+'Khwb shop Image/img19b.jpg',
+'Khwb shop Image/img19c.jpg'
+],
+'LINEN MINI DRESS',
+'₹ 2,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img19.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">LINEN MINI DRESS</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="summer" onclick="openModal(
+[
+'Khwb shop Image/img20a.jpg',
+'Khwb shop Image/img20b.jpg',
+'Khwb shop Image/img20c.jpg'
+],
+'EMBROIDERED FRINGE BLOUSE',
+'₹ 3,950.00<'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img20.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">EMBROIDERED FRINGE BLOUSE</p>
+                            <p class="text-[9px] text-gray-400">₹ 3,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="silk" onclick="openModal(
+[
+'Khwb shop Image/img21a.jpg',
+'Khwb shop Image/img21b.jpg',
+'Khwb shop Image/img21c.jpg',
+'Khwb shop Image/img21d.jpg'
+],
+'STRIPED CUTWORK POLO CARDIGAN',
+'₹ 2,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img21.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">STRIPED CUTWORK POLO CARDIGAN</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img22a.jpg',
+'Khwb shop Image/img22b.jpg',
+'Khwb shop Image/img22c.jpg'
+],
+'LONG STRAPPY DRESS',
+'₹ 2,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img22.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">LONG STRAPPY DRESS</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img23a.jpg',
+'Khwb shop Image/img23b.jpg',
+'Khwb shop Image/img23c.jpg'
+],
+'KIMONO JACKET WITH EMBROIDERY AND BELT',
+'₹ 5,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img23.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">KIMONO JACKET WITH EMBROIDERY AND BELT</p>
+                            <p class="text-[9px] text-gray-400">₹ 5,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="summer" onclick="openModal(
+[
+'Khwb shop Image/img24a.jpg',
+'Khwb shop Image/img24b.jpg',
+'Khwb shop Image/img24c.jpg'
+],
+'EMBROIDERED LACE BERMUDA SHORTS',
+'₹ 2,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img24.jpg""
+                                class=" product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">EMBROIDERED LACE BERMUDA SHORTS</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="silk" onclick="openModal(
+[
+'Khwb shop Image/img25a.jpg',
+'Khwb shop Image/img25b.jpg',
+'Khwb shop Image/img25c.jpg'
+],
+'TEXTURED WIDE-LEG TROUSERS',
+'₹ 2,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img25.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">TEXTURED WIDE-LEG TROUSERS</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img26a.jpg',
+'Khwb shop Image/img26b.jpg',
+'Khwb shop Image/img26c.jpg',
+'Khwb shop Image/img26d.jpg',
+'Khwb shop Image/img26e.jpg',
+'Khwb shop Image/img26f.jpg',
+'Khwb shop Image/img26g.jpg'
+],
+'METALLIC DETAIL MIDI DRESS',
+'₹ 4,350.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img26.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">METALLIC DETAIL MIDI DRESS</p>
+                            <p class="text-[9px] text-gray-400">₹ 4,350.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img27a.jpg',
+'Khwb shop Image/img27b.jpg',
+'Khwb shop Image/img27c.jpg'
+],
+'TROUSERS WITH ELASTIC WAIST',
+'₹ 2,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img27.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">TROUSERS WITH ELASTIC WAIST</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,950.00</p>
+                        </div>
+                    </div>
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img28a.jpg',
+'Khwb shop Image/img28b.jpg',
+'Khwb shop Image/img28c.jpg'
+],
+'ZW COLLECTION SATIN LACE TOP',
+'₹ 2,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img28.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">ZW COLLECTION SATIN LACE TOP</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img29a.jpg',
+'Khwb shop Image/img29b.jpg',
+'Khwb shop Image/img29c.jpg',
+'Khwb shop Image/img29d.jpg',
+'Khwb shop Image/img29e.jpg',
+'Khwb shop Image/img29f.jpg',
+'Khwb shop Image/img29g.jpg'
+
+],
+'FLOWING LACE DRESS',
+'₹ 4,350.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img29.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">FLOWING LACE DRESS</p>
+                            <p class="text-[9px] text-gray-400">₹ 4,350.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="summer" onclick="openModal(
+[
+'Khwb shop Image/img30a.jpg',
+'Khwb shop Image/img30b.jpg',
+'Khwb shop Image/img30c.jpg'
+],
+'DOUBLE-BREASTED JACKET',
+'₹ 2,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img30.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">DOUBLE-BREASTED JACKET</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="silk" onclick="openModal(
+[
+'Khwb shop Image/img31a.jpg',
+'Khwb shop Image/img31b.jpg',
+'Khwb shop Image/img31c.jpg'
+],
+'EMBROIDERED STRAPPY TOP',
+'₹ 2,350.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img31.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">EMBROIDERED STRAPPY TOP</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,350.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img32a.jpg',
+'Khwb shop Image/img32b.jpg',
+'Khwb shop Image/img32c.jpg'
+],
+'STRIPED TOP WITH TASSEL TIES',
+'₹ 2,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img32.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">STRIPED TOP WITH TASSEL TIES</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img33a.jpg',
+'Khwb shop Image/img33b.jpg',
+'Khwb shop Image/img33c.jpg'
+],
+'ZW COLLECTION LIMITED EDITION PATCHWORK',
+'₹ 9,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img33.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">ZW COLLECTION LIMITED EDITION PATCHWORK</p>
+                            <p class="text-[9px] text-gray-400">₹ 9,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img34a.jpg',
+'Khwb shop Image/img34b.jpg',
+'Khwb shop Image/img34c.jpg'
+],
+'ZW COLLECTION HIGH-WAIST FLARE JEANS',
+'₹ 4,350.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img34.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">ZW COLLECTION HIGH-WAIST FLARE JEANS</p>
+                            <p class="text-[9px] text-gray-400">₹ 4,350.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img35a.jpg',
+'Khwb shop Image/img35b.jpg',
+'Khwb shop Image/img35c.jpg'
+],
+'ZW COLLECTION BUTTONED POPLIN JEANS',
+'₹ 3,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img35.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">ZW COLLECTION BUTTONED POPLIN JEANS</p>
+                            <p class="text-[9px] text-gray-400">₹ 3,950.00</p>
+                        </div>
+                    </div>
+                    <div class="group relative cursor-pointer product-card reveal" data-category="summer" onclick="openModal(
+[
+'Khwb shop Image/img36a.jpg',
+'Khwb shop Image/img36b.jpg',
+'Khwb shop Image/img36d.jpg',
+'Khwb shop Image/img36e.jpg',
+'Khwb shop Image/img36f.jpg',
+],
+'LONG SATIN SKIRT WITH VENT',
+'₹ 2,350.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img36.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">LONG SATIN SKIRT WITH VENT</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,350.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="silk" onclick="openModal(
+[
+'Khwb shop Image/img37a.jpg',
+'Khwb shop Image/img37b.jpg',
+'Khwb shop Image/img37c.jpg'
+],
+'ZW COLLECTION CROPPED BLAZER',
+'₹ 6,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img37.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">ZW COLLECTION CROPPED BLAZER</p>
+                            <p class="text-[9px] text-gray-400">₹ 6,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img38a.jpg',
+'Khwb shop Image/img38b.jpg',
+'Khwb shop Image/img38c.jpg'
+],
+'ZW COLLECTION STRIPED BERMUDA SHORTS WITH DARTS',
+'₹ 3,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img38.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">ZW COLLECTION STRIPED BERMUDA SHORTS WITH DARTS
+                            </p>
+                            <p class="text-[9px] text-gray-400">₹ 3,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img39a.jpg',
+'Khwb shop Image/img39b.jpg',
+'Khwb shop Image/img39c.jpg'
+],
+'ZW COLLECTION PEPLUM BLAZER WITH TOGGLES',
+'₹ 6,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img39.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">ZW COLLECTION PEPLUM BLAZER WITH TOGGLES</p>
+                            <p class="text-[9px] text-gray-400">₹ 6,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img40a.jpg',
+'Khwb shop Image/img40b.jpg',
+'Khwb shop Image/img40c.jpg'
+],
+'ZW COLLECTION FLOWING SHORT SLEEVE BLOUSE',
+'₹ 2,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img40.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">ZW COLLECTION FLOWING SHORT SLEEVE BLOUSE</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="summer" onclick="openModal(
+[
+'Khwb shop Image/img41a.jpg',
+'Khwb shop Image/img41b.jpg',
+'Khwb shop Image/img41c.jpg'
+],
+'TRF STAR MINI DENIM SHORTS',
+'₹ 2,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img41.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">TRF STAR MINI DENIM SHORTS</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="silk" onclick="openModal(
+[
+'Khwb shop Image/img42a.jpg',
+'Khwb shop Image/img42b.jpg',
+'Khwb shop Image/img42c.jpg'
+],
+'SHORT SLEEVE FLOWING SHIRT',
+'₹ 2,350.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img42.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">SHORT SLEEVE FLOWING SHIRT</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,350.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img43a.jpg',
+'Khwb shop Image/img43b.jpg',
+'Khwb shop Image/img43c.jpg'
+],
+'FLOWING HALTER DRESS',
+'₹ 2,950.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img43.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">FLOWING HALTER DRESS</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="midnight" onclick="openModal(
+[
+'Khwb shop Image/img44a.jpg',
+'Khwb shop Image/img44b.jpg',
+'Khwb shop Image/img44c.jpg'
+],
+'GEORGETTE HALTER TOP',
+'₹ 2,050.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img44.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">GEORGETTE HALTER TOP</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,050.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="summer" onclick="openModal(
+[
+'Khwb shop Image/img45a.jpg',
+'Khwb shop Image/img45b.jpg',
+'Khwb shop Image/img45c.jpg'
+],
+'DRAWSTRING FLOWING TROUSERS',
+'₹ 2,550.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img45.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">DRAWSTRING FLOWING TROUSERS</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,550.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="silk" onclick="openModal(
+[
+'Khwb shop Image/img46a.jpg',
+'Khwb shop Image/img46b.jpg',
+'Khwb shop Image/img46c.jpg'
+],
+'SATIN FLARED SHORTS',
+'₹ 2,350.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img46.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">SATIN FLARED SHORTS</p>
+                            <p class="text-[9px] text-gray-400">₹ 2,350.00</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative cursor-pointer product-card reveal" data-category="wool" onclick="openModal(
+[
+'Khwb shop Image/img47a.jpg',
+'Khwb shop Image/img47b.jpg',
+'Khwb shop Image/img47c.jpg'
+],
+'Sculpted Mini',
+'₹ 3,450.00'
+)">
+                        <div class="overflow-hidden aspect-[3/4] mb-4 bg-gray-200 relative">
+                            <img loading="lazy" src="Khwb shop Image/img47.jpg"
+                                class="product-image w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center gap-3">
+                                <button onclick="event.stopPropagation(); addToCart('Luxury Item')"
+                                    class="bg-white text-black px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition">
+                                    Add To Cart
+                                </button>
+                                <button onclick="event.stopPropagation()"
+                                    class="border border-white text-white px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition">
+                                    Quick View
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] uppercase font-bold">Sculpted Mini</p>
+                            <p class="text-[9px] text-gray-400">₹ 3,450.00</p>
+                        </div>
+                    </div>
+
+
+                    <!-- More can be added here -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <section class="py-32 px-6 border-t border-gray-100 text-center bg-[#fafafa]">
+        <p class="text-[10px] uppercase tracking-[0.5em] text-gray-400 mb-6">
+            Join The Atelier
+        </p>
+
+        <h2 class="luxury-font text-5xl italic mb-10">
+            Receive Private Collection Updates
+        </h2>
+
+        <div class="max-w-xl mx-auto flex flex-col md:flex-row gap-4">
+            <input type="email" placeholder="Your Email"
+                class="flex-1 border border-gray-200 px-6 py-4 text-sm outline-none focus:border-black transition">
+
+            <button
+                class="bg-black text-white px-10 py-4 uppercase tracking-[0.3em] text-[10px] hover:bg-gray-800 transition">
+                Subscribe
+            </button>
+        </div>
+    </section>
+    <!-- FOOTER -->
+    <footer class="py-20 border-t border-gray-50 bg-white px-12">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="luxury-font text-3xl font-bold tracking-[0.5em]">KHWB</div>
+            <div class="flex gap-10 text-[9px] uppercase tracking-widest text-gray-400">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Instagram</a>
+                <a href="#">Contact</a>
+            </div>
+            <p class="text-[9px] text-gray-300 uppercase tracking-widest">&copy; 2026 KHWB Atelier</p>
+        </div>
+    </footer>
+
+    <div id="cursor"
+        class="hidden md:block fixed top-0 left-0 w-6 h-6 border border-black rounded-full pointer-events-none z-[9999] transition-transform duration-75">
+    </div>
+
+    <!-- =========================
+FULLSCREEN CART
+========================= -->
+
+<!-- =========================
+LUXURY FULLSCREEN CART
+========================= -->
+
+<div id="cartSidebar"
+class="fixed inset-0 bg-white z-[999999]
+translate-x-full transition-transform duration-700
+ease-[cubic-bezier(0.77,0,0.175,1)] flex flex-col">
+
+    <!-- TOP -->
+    <div class="flex items-center justify-between
+    px-8 md:px-16 py-8 border-b border-black/10">
+
+        <h2 class="luxury-font text-4xl italic">
+            Shopping Cart
+        </h2>
+
+        <button onclick="toggleCart()"
+        class="text-5xl font-light hover:rotate-90 transition duration-500">
+
+            ×
+
+        </button>
+
+    </div>
+
+    <!-- MAIN -->
+    <div class="flex-1 grid md:grid-cols-[1.4fr_0.6fr] overflow-hidden">
+
+        <!-- LEFT -->
+        <div id="cart-items"
+        class="overflow-y-auto px-8 md:px-16 py-10 space-y-10">
+
+            <!-- EMPTY -->
+            <div id="empty-cart"
+            class="h-full flex items-center justify-center">
+
+                <div class="text-center">
+
+                    <p class="uppercase tracking-[0.5em]
+                    text-[11px] text-gray-400 mb-4">
+
+                        Your cart is empty
+
+                    </p>
+
+                    <h3 class="luxury-font text-5xl italic">
+                        KHWB
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="border-l border-black/10
+        px-8 md:px-12 py-10 flex flex-col justify-between bg-[#fafafa]">
+
+            <div>
+
+                <p class="uppercase tracking-[0.35em]
+                text-[10px] text-gray-400 mb-8">
+
+                    Order Summary
+
+                </p>
+
+                <div class="space-y-5 text-[11px]
+                uppercase tracking-[0.25em]">
+
+                    <div class="flex justify-between">
+                        <span>Subtotal</span>
+                        <span>₹<span id="cart-total">0</span></span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span>Shipping</span>
+                        <span>Free</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <div class="flex justify-between
+                mb-8 uppercase tracking-[0.3em]
+                text-[11px]">
+
+                    <span>Total</span>
+
+                    <span>
+                        ₹<span id="final-total">0</span>
+                    </span>
+
+                </div>
+
+                <button
+                class="w-full bg-black text-white py-5
+                uppercase tracking-[0.35em]
+                text-[10px]
+                hover:bg-neutral-800 transition">
+
+                    Secure Checkout
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="cart-toast">
+    Added To Cart
+</div>
+
+
+    <script>
+
+let cart = [];
+
+function toggleCart() {
+
+    const cartSidebar = document.getElementById("cartSidebar");
+
+    if (cartSidebar.classList.contains("translate-x-full")) {
+
+        cartSidebar.classList.remove("translate-x-full");
+
+    } else {
+
+        cartSidebar.classList.add("translate-x-full");
+
+    }
+
+}
+
+function addToCart(name, price, image) {
+
+    cart.push({
+        name,
+        price,
+        image
+    });
+
+    updateCart();
+
+    showCartToast();
+
+}
+
+function removeFromCart(index) {
+
+    cart.splice(index, 1);
+
+    updateCart();
+
+}
+
+function updateCart() {
+
+    const cartItems = document.getElementById("cart-items");
+    const cartCount = document.getElementById("cart-count");
+    const cartTotal = document.getElementById("cart-total");
+    const finalTotal = document.getElementById("final-total");
+
+    let total = 0;
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML = `
+
+        <div id="empty-cart"
+        class="h-full flex items-center justify-center">
+
+            <div class="text-center">
+
+                <p class="uppercase tracking-[0.5em]
+                text-[11px] text-gray-400 mb-4">
+
+                    Your cart is empty
+
+                </p>
+
+                <h3 class="luxury-font text-5xl italic">
+                    KHWB
+                </h3>
+
+            </div>
+
+        </div>
+
+        `;
+
+    } else {
+
+        cartItems.innerHTML = "";
+
+        cart.forEach((item, index) => {
+
+            total += item.price;
+
+            cartItems.innerHTML += `
+
+            <div class="grid grid-cols-[140px_1fr]
+            gap-8 border-b border-black/10 pb-10">
+
+                <!-- IMAGE -->
+                <div>
+
+                    <img src="${item.image}"
+                    class="w-full h-[190px] object-cover">
+
+                </div>
+
+                <!-- INFO -->
+                <div class="flex flex-col justify-between">
+
+                    <div>
+
+                        <p class="uppercase tracking-[0.3em]
+                        text-[10px] text-gray-400 mb-3">
+
+                            KHWB COLLECTION
+
+                        </p>
+
+                        <h3 class="luxury-font text-3xl italic mb-4">
+
+                            ${item.name}
+
+                        </h3>
+
+                        <p class="text-sm text-gray-500">
+
+                            Premium Luxury Wear
+
+                        </p>
+
+                    </div>
+
+                    <div class="flex items-center justify-between">
+
+                        <p class="text-lg">
+                            ₹${item.price}
+                        </p>
+
+                        <button onclick="removeFromCart(${index})"
+                        class="uppercase tracking-[0.25em]
+                        text-[10px] text-red-500">
+
+                            Remove
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            `;
+
+        });
+
+    }
+
+    cartCount.innerText = cart.length;
+    cartTotal.innerText = total;
+    finalTotal.innerText = total;
+
+}
+
+
+        /* FILTER SYSTEM */
+        const filterButtons = document.querySelectorAll(".collection-btn");
+        const products = document.querySelectorAll(".product-card");
+
+        filterButtons.forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                filterButtons.forEach(btn => {
+                    btn.classList.remove("text-black", "font-semibold");
+                    btn.classList.add("text-gray-400");
+                });
+
+                button.classList.add("text-black", "font-semibold");
+
+                const filter = button.dataset.filter;
+
+                products.forEach(product => {
+
+                    product.style.transition = "all 0.5s ease";
+
+                    if (filter === "all" || product.dataset.category === filter) {
+
+                        product.style.opacity = "1";
+                        product.style.transform = "scale(1)";
+                        product.style.pointerEvents = "auto";
+
+                        setTimeout(() => {
+                            product.style.display = "block";
+                        }, 50);
+
+                    } else {
+
+                        product.style.opacity = "0";
+                        product.style.transform = "scale(0.95)";
+                        product.style.pointerEvents = "none";
+
+                        setTimeout(() => {
+                            product.style.display = "none";
+                        }, 300);
+
+                    }
+
+                });
+
+            });
+
+        });
+
+        function toggleFilter() {
+
+            const sidebar = document.getElementById("filterSidebar");
+
+            if (sidebar.classList.contains("-translate-x-full")) {
+
+                sidebar.classList.remove("-translate-x-full");
+
+            } else {
+
+                sidebar.classList.add("-translate-x-full");
+
+            }
+
+        }
+
+        /* MODAL SYSTEM */
+        let currentImages = [];
+        let currentIndex = 0;
+
+        function openModal(image, title, price) {
+
+            const modal = document.getElementById("product-modal");
+            const content = document.getElementById("modal-content");
+
+            modal.style.display = "flex";
+
+            setTimeout(() => {
+                modal.style.opacity = "1";
+                content.classList.remove("scale-95", "opacity-0");
+                content.classList.add("scale-100", "opacity-100");
+            }, 10);
+
+            // 🔥 FIX: proper array handling
+            currentImages = Array.isArray(image) ? image : [image];
+            currentIndex = 0;
+
+            updateModalImage();
+
+            document.getElementById("modalTitle").innerText = title;
+            document.getElementById("modalPrice").innerText = price;
+
+            document.body.style.overflow = "hidden";
+        }
+
+        function updateModalImage() {
+            const img = document.getElementById("modalImage");
+
+            // fade out
+            img.style.opacity = "0";
+            img.style.transform = "scale(1.05)";
+
+            setTimeout(() => {
+                img.src = currentImages[currentIndex];
+
+                // wait for image change
+                setTimeout(() => {
+                    img.style.opacity = "1";
+                    img.style.transform = "scale(1)";
+                }, 50);
+
+            }, 200);
+        }
+        function nextImage() {
+            if (currentImages.length <= 1) return;
+
+            currentIndex = (currentIndex + 1) % currentImages.length;
+            updateModalImage();
+        }
+
+        function prevImage() {
+            if (currentImages.length <= 1) return;
+
+            currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+            updateModalImage();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("product-modal");
+            const content = document.getElementById("modal-content");
+
+            modal.style.opacity = "0";
+
+            setTimeout(() => {
+                modal.style.display = "none";
+            }, 300);
+
+            document.body.style.overflow = "auto";
+
+            content.classList.remove("scale-100", "opacity-100");
+            content.classList.add("scale-95", "opacity-0");
+        }
+
+        const reveals = document.querySelectorAll(".reveal");
+
+        function revealOnScroll() {
+
+            reveals.forEach((item) => {
+
+                const windowHeight = window.innerHeight;
+                const revealTop = item.getBoundingClientRect().top;
+
+                if (revealTop < windowHeight - 80) {
+                    item.classList.add("active");
+                }
+
+            });
+
+        }
+
+        window.addEventListener("scroll", revealOnScroll);
+
+        revealOnScroll();
+
+        function openFilterMenu() {
+
+            const menu = document.getElementById("filterMenu");
+
+            menu.classList.remove("hidden");
+
+            setTimeout(() => {
+                menu.classList.remove("opacity-0");
+            }, 10);
+        }
+
+        function closeFilterMenu() {
+
+            const menu = document.getElementById("filterMenu");
+
+            menu.classList.add("opacity-0");
+
+            setTimeout(() => {
+                menu.classList.add("hidden");
+            }, 400);
+        }
+
+        const heroTexts = document.querySelectorAll(".hero-text");
+
+        function revealHeroText() {
+
+            heroTexts.forEach((text) => {
+
+                const rect = text.getBoundingClientRect();
+
+                if (rect.top < window.innerHeight - 100) {
+
+                    text.classList.add("active");
+
+                }
+
+            });
+
+        }
+
+        window.addEventListener("scroll", revealHeroText);
+
+        revealHeroText();
+
+        window.addEventListener("load", () => {
+
+            const loader = document.getElementById("luxury-loader");
+
+            setTimeout(() => {
+
+                loader.style.opacity = "0";
+                loader.style.transition = "opacity 1s ease";
+
+                setTimeout(() => {
+
+                    loader.style.display = "none";
+
+                }, 1000);
+
+            }, 2600);
+
+        });
+
+        function showCartToast() {
+
+    const toast = document.getElementById("cart-toast");
+
+    toast.style.opacity = "1";
+    toast.style.transform = "translateY(0)";
+
+    setTimeout(() => {
+
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(-120px)";
+
+    }, 2200);
+
+}
+
+/////////////////////////////
+// CURSOR GLOW
+/////////////////////////////
+
+// Cursor Circle Logic
+const cursor = document.getElementById("cursor");
+
+document.addEventListener("mousemove", (e) => {
+    // Isse cursor move hoga
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+});
+
+// Jab kisi clickable cheez par hover karein toh cursor bada ho jaye
+// const links = document.querySelectorAll('a, button, .cursor-pointer');
+// links.forEach(link => {
+//     link.addEventListener('mouseenter', () => {
+//         cursor.style.transform += ' scale(2)';
+//         cursor.style.backgroundColor = 'rgba(0,0,0,0.1)';
+//     });
+//     link.addEventListener('mouseleave', () => {
+//         cursor.style.transform = cursor.style.transform.replace(' scale(2)', '');
+//         cursor.style.backgroundColor = 'transparent';
+//     });
+// });
+    </script>
+
+    <!-- PRODUCT MODAL -->
+    <div id="product-modal" style="opacity:0;"
+        class="fixed inset-0 bg-black/70 backdrop-blur-md z-[9999] hidden items-center justify-center p-3 lg:p-6 transition-all duration-500">
+
+        <div class="bg-white/95 backdrop-blur-xl
+    w-full max-w-[96vw] h-[96vh]
+    overflow-hidden relative
+    grid md:grid-cols-[68%_32%]
+    rounded-[2rem]
+    shadow-2xl
+    border border-white/20
+    scale-95 opacity-0
+    transition-all duration-500" id="modal-content">
+
+            <!-- CLOSE -->
+            <button onclick="closeModal()" class="absolute top-6 right-6 z-50
+            text-3xl text-black
+            hover:rotate-90
+            transition duration-500">
+                ×
+            </button>
+
+            <!-- IMAGE -->
+            <div class="relative bg-[#f7f7f7]
+        h-full flex items-center justify-center
+        overflow-hidden p-4 lg:p-6">
+
+                <img id="modalImage" src="" class="w-full h-full object-contain
+                transition-all duration-700 ease-out">
+
+                <!-- PREV -->
+                <button onclick="prevImage()" class="absolute left-4
+                text-black/70 hover:text-black
+                text-4xl transition">
+                    ‹
+                </button>
+
+                <!-- NEXT -->
+                <button onclick="nextImage()" class="absolute right-4
+                text-black/70 hover:text-black
+                text-4xl transition">
+                    ›
+                </button>
+
+            </div>
+
+            <!-- DETAILS -->
+            <div class="p-8 md:p-10
+        flex flex-col justify-center bg-white">
+
+                <!-- BRAND -->
+                <p class="text-[10px]
+            uppercase
+            tracking-[0.45em]
+            text-gray-400
+            mb-4">
+                    KHWB Atelier
+                </p>
+
+                <!-- TITLE -->
+                <h2 id="modalTitle" class="luxury-font
+                text-2xl md:text-3xl
+                font-light
+                tracking-wide
+                leading-tight
+                mb-4">
+                    Product
+                </h2>
+
+                <!-- PRICE -->
+                <p id="modalPrice" class="text-[11px]
+                tracking-[0.35em]
+                uppercase
+                text-gray-500
+                mb-6">
+                    ₹ 2,950.00
+                </p>
+
+                <!-- TAGS -->
+                <div class="flex flex-wrap gap-3 mb-8">
+
+                    <span class="border border-black/10
+                px-4 py-2
+                text-[10px]
+                uppercase
+                tracking-[0.3em]">
+                        Premium Fabric
+                    </span>
+
+                    <span class="border border-black/10
+                px-4 py-2
+                text-[10px]
+                uppercase
+                tracking-[0.3em]">
+                        Limited Edition
+                    </span>
+
+                </div>
+
+                <!-- DESCRIPTION -->
+                <p class="text-[13px]
+            text-gray-500
+            leading-loose
+            font-light
+            mb-10">
+
+                    Crafted with luxury textures and timeless silhouettes.
+                    Designed for modern elegance and elevated aesthetics.
+                    A refined statement piece inspired by editorial fashion
+                    and contemporary minimalism.
+
+                </p>
+
+                <!-- SIZE -->
+                <div class="mb-10">
+
+                    <p class="text-[10px]
+                uppercase
+                tracking-[0.4em]
+                text-gray-400
+                mb-4">
+                        Select Size
+                    </p>
+
+                    <div class="flex gap-3">
+
+                        <button class="border border-black/20
+                    px-5 py-3
+                    hover:bg-black hover:text-white
+                    transition-all duration-300">
+                            S
+                        </button>
+
+                        <button class="border border-black/20
+                    px-5 py-3
+                    hover:bg-black hover:text-white
+                    transition-all duration-300">
+                            M
+                        </button>
+
+                        <button class="border border-black/20
+                    px-5 py-3
+                    hover:bg-black hover:text-white
+                    transition-all duration-300">
+                            L
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- BUTTON -->
+                <button onclick="addToCart('Luxury Item')" class="bg-black text-white
+                py-5
+                uppercase
+                tracking-[0.45em]
+                text-[10px]
+                hover:tracking-[0.6em]
+                hover:bg-[#111]
+                transition-all duration-500">
+
+                    ADD TO CART — ₹ 2,950
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
